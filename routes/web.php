@@ -35,6 +35,8 @@ Route::middleware(['auth', 'UserOnboardingSteps'])->group(function () {
         ->name('two-factor.show');
 
 
+    Route::view('dashboard', 'dashboard')->name('dashboard');
+
     Route::prefix('companies')->group(function () {
         Route::get('/', [CompanyController::class, 'index'])->name('companies.index');
         Route::get(
@@ -47,10 +49,9 @@ Route::middleware(['auth', 'UserOnboardingSteps'])->group(function () {
             [CompanySubscriptionController::class, 'subscribe']
         )->name('companies.subscribe');
     });
-});
 
-
-Route::prefix('onboarding')->group(function () {
-    Route::get('/', [OnboardingController::class, 'index']);
-    Route::get('/{onboardingId}', [OnboardingController::class, 'show'])->name('onboarding.show');
+    Route::prefix('onboarding')->group(function () {
+        Route::get('/', [OnboardingController::class, 'index'])->name('onboarding.index');
+        Route::get('/{onboardingId}', [OnboardingController::class, 'show'])->name('onboarding.show');
+    });
 });

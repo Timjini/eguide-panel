@@ -24,19 +24,17 @@ class UserOnboardingSteps
             return redirect()->route('login');
         }
 
-        // Adjust this condition to your logic
         $hasFinishedOnboarding = $user->currentOnboardingStep()->get();
-        // or: $user->currentOnboardingStep() === null
+        info("calles to onboard" . json_encode($hasFinishedOnboarding));
 
         $isOnboardingRoute = $request->routeIs('onboarding.*');
 
-        // User NOT finished → force onboarding
-        if ($hasFinishedOnboarding->isEmpty() && ! $isOnboardingRoute) {
+        if (!$hasFinishedOnboarding->isEmpty() && ! $isOnboardingRoute) {
             return redirect()->route('onboarding.index');
         }
 
         // User finished → block onboarding pages
-        if ($hasFinishedOnboarding && $isOnboardingRoute) {
+        if (($hasFinishedOnboarding->isEmpty() || !$hasFinishedOnboarding) && $isOnboardingRoute) {
             return redirect()->route('dashboard');
         }
         return $next($request);

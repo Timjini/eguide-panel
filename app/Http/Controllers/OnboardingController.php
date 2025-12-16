@@ -12,6 +12,10 @@ class OnboardingController
     public function index(): View
     {
         $userSteps = Auth::user()->currentOnboardingStep()->get();
+        info("0000000---->" . json_encode($userSteps));
+        if ($userSteps->isEmpty()) {
+            return view('dashboard');
+        }
         $onboarding = Onboarding::find($userSteps[0]['onboarding_id']);
         return view('onboarding.index', ['onboarding' => $onboarding]);
     }

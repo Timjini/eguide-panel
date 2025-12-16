@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Str;
 
@@ -36,13 +37,8 @@ class Onboarding extends Model
     /**
      * Get all of the onboardingsteps for the user.
      */
-    public function onboardingSteps(): HasManyThrough
+    public function onboardingSteps(): HasMany
     {
-        return $this->hasManyThrough(User::class, OnboardingStep::class);
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
+        return $this->HasMany(OnboardingStep::class);
     }
 }
