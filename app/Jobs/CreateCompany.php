@@ -2,7 +2,10 @@
 
 namespace App\Jobs;
 
+use App\Domain\Company\Events\CompanyCreated;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Str;
+use Ramsey\Uuid\UuidInterface;
 
 final class CreateCompany
 {
@@ -20,8 +23,17 @@ final class CreateCompany
             'exists' => array_key_exists('primary_email', $this->data),
             'value' => $this->data['primary_email'] ?? 'NULL',
         ]);
+
+        $id = Str::uuid()->toString();
+
+        $this->data['id'] = $id;
+
         $company = $factory->create($this->data);
 
+        info('Company created =======>' . json_encode($company));
+
         $repository->save($company);
+
+        // event(new CompanyCreated($id));
     }
 }

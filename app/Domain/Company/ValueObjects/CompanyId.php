@@ -10,4 +10,9 @@ final class CompanyId
             throw new \DomainException('CompanyId cannot be empty');
         }
     }
+
+    public function value(): string
+    {
+        return $this->value;
+    }
 }

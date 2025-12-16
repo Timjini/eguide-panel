@@ -11,6 +11,7 @@ final class CompanyFactory
     public function create(array $data): Company
     {
         return Company::create(
+            id: $data['id'],
             legalName: $data['legal_name'] ?? null,
             contactPerson: $data['contact_person'] ?? null,
             primaryEmail: new PrimaryEmail($data['primary_email'] ?? null),

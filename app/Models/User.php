@@ -9,14 +9,19 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use App\Events\UserRegistered;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
+use App\Observers\UserObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+
+#[ObservedBy([UserObserver::class])]
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, TwoFactorAuthenticatable;
 
     protected $dispatchesEvents = [
-       'created' => UserRegistered::class
+        'created' => UserRegistered::class
     ];
 
     protected $keyType = 'string';
@@ -81,7 +86,22 @@ class User extends Authenticatable
         return Str::of($this->name)
             ->explode(' ')
             ->take(2)
-            ->map(fn ($word) => Str::substr($word, 0, 1))
+            ->map(fn($word) => Str::substr($word, 0, 1))
             ->implode('');
+    }
+
+    public function onboardingSteps(): HasMany
+    {
+        return $this->hasMany(OnboardingStep::class);
+    }
+
+    public function completedOnboardingStep()
+    {
+        $this->onboardingSteps()->where('is_completed', true)->latest();
+    }
+
+    public function currentOnboardingStep()
+    {
+        return $this->onboardingSteps()->where('is_completed', false)->latest();
     }
 }
