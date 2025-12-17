@@ -37,21 +37,25 @@ Route::middleware(['auth', 'UserOnboardingSteps'])->group(function () {
 
     Route::view('dashboard', 'dashboard')->name('dashboard');
 
+    Route::prefix('onboarding')->group(function () {
+        Route::get('/', [OnboardingController::class, 'index'])->name('onboarding.index');
+        Route::post('{stepOrder?}', [OnboardingController::class, 'step'])->name('onboarding.step');
+        Route::get('/{onboardingId}', [OnboardingController::class, 'show'])->name('onboarding.show');
+    });
+
     Route::prefix('companies')->group(function () {
         Route::get('/', [CompanyController::class, 'index'])->name('companies.index');
         Route::get(
             '/{company}/plans',
             [PlanController::class, 'index']
         );
-        Route::post('/', [CompanyController::class, 'store'])->name('companies.store');
-        Route::post(
-            '/subscribe/{billableId}',
-            [CompanySubscriptionController::class, 'subscribe']
-        )->name('companies.subscribe');
     });
+});
 
-    Route::prefix('onboarding')->group(function () {
-        Route::get('/', [OnboardingController::class, 'index'])->name('onboarding.index');
-        Route::get('/{onboardingId}', [OnboardingController::class, 'show'])->name('onboarding.show');
-    });
+Route::prefix('companies')->group(function () {
+    Route::post('/', [CompanyController::class, 'store'])->name('companies.store');
+    Route::post(
+        '/subscribe/{billableId}',
+        [CompanySubscriptionController::class, 'subscribe']
+    )->name('companies.subscribe');
 });

@@ -10,6 +10,8 @@ class SetUserCompanyId
 
     public function handle(CompanyCreated $event): void
     {
-        info("set user company_id =======" . $event->companyId);
+        info('set user company_id =======', [
+            'company_id' => $event->companyId->value(),
+        ]);
     }
 }

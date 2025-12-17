@@ -21,6 +21,11 @@ class OnboardingSeeder extends Seeder
                 'slug' => 'create-company',
                 'sort_order' => 1,
             ],
+            [
+                'title' => 'Choose A Plan',
+                'slug' => 'choose-plan',
+                'sort_order' => 2,
+            ],
         ];
 
         foreach ($onboardings as $onboarding) {

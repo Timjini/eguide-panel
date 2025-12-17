@@ -3,6 +3,7 @@
 namespace App\Domain\Company;
 
 use App\Domain\Company\ValueObjects\Address;
+use App\Domain\Company\ValueObjects\CompanyId;
 use App\Domain\Company\ValueObjects\PrimaryEmail;
 use App\Domain\Company\ValueObjects\VatNumber;
 
@@ -10,6 +11,7 @@ use App\Domain\Company\ValueObjects\VatNumber;
 final class Company
 {
     private function __construct(
+        public CompanyId $id,
         public ?string $legalName,
         public ?string $contactPerson,
         public ?string $primaryEmail,
@@ -26,6 +28,7 @@ final class Company
     ) {}
 
     public static function create(
+        CompanyId $id,
         ?string $legalName,
         ?string $contactPerson,
         ?PrimaryEmail $primaryEmail,
@@ -35,6 +38,7 @@ final class Company
         VatNumber $vatNumber,
     ): self {
         return new self(
+            id: $id,
             legalName: $legalName,
             contactPerson: $contactPerson,
             primaryEmail: $primaryEmail?->value(),

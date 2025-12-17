@@ -3,12 +3,14 @@
 namespace App\Infrastructure\Persistence\Eloquent;
 
 use App\Domain\Company\Company;
+use App\Domain\Company\Repositories\CompanyRepositoryInterface as RepositoriesCompanyRepositoryInterface;
 
-final class CompanyRepository
+final class CompanyRepository implements RepositoriesCompanyRepositoryInterface
 {
     public function save(Company $company): void
     {
         \App\Models\Company::create([
+            'id' => $company->id,
             'legal_name' => $company->legalName,
             'contact_person' => $company->contactPerson,
             'primary_email' => $company->primaryEmail,

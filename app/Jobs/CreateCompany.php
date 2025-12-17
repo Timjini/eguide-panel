@@ -2,10 +2,12 @@
 
 namespace App\Jobs;
 
+use App\Domain\Company\CompanyFactory;
 use App\Domain\Company\Events\CompanyCreated;
+use App\Domain\Company\Repositories\CompanyRepositoryInterface as RepositoriesCompanyRepositoryInterface;
+use App\Domain\Company\ValueObjects\CompanyId;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Str;
-use Ramsey\Uuid\UuidInterface;
 
 final class CreateCompany
 {
@@ -14,26 +16,29 @@ final class CreateCompany
     public function __construct(public array $data) {}
 
     public function handle(
-        \App\Domain\Company\CompanyFactory $factory,
-        \App\Infrastructure\Persistence\Eloquent\CompanyRepository $repository,
+        CompanyFactory $factory,
+        RepositoriesCompanyRepositoryInterface $repository,
     ): void {
-        info('Job started=======>');
 
         info('Primary email value', [
             'exists' => array_key_exists('primary_email', $this->data),
             'value' => $this->data['primary_email'] ?? 'NULL',
         ]);
 
-        $id = Str::uuid()->toString();
+        // generate uuid and assign it to factory
+        $companyId = new CompanyId(Str::uuid()->toString());
+        $this->data['id'] = $companyId;
 
-        $this->data['id'] = $id;
+        info('Primary email value', [
+            'data__' => array_key_exists('current_data', $this->data),
+        ]);
 
         $company = $factory->create($this->data);
 
-        info('Company created =======>' . json_encode($company));
 
+        // infrustructure
         $repository->save($company);
 
-        // event(new CompanyCreated($id));
+        event(new CompanyCreated($companyId));
     }
 }

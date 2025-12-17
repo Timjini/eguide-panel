@@ -16,11 +16,16 @@ class UserObserver
         // intiate first onboardingstep
         $onboarding = Onboarding::where('sort_order',  0)->first();
 
+        if (! $onboarding) {
+            info("observer failed");
+            return;
+        }
+
         // create onboardingstep
         OnboardingStep::create([
             'user_id' => $user->id,
             'onboarding_id' => $onboarding->id,
-            'completed' => false
+            'is_completed' => false
         ]);
     }
 

@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\CreatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
-
 
 class Company extends Model
 {
@@ -68,5 +69,4 @@ class Company extends Model
     {
         return $this->hasMany(User::class);
     }
-
 }
