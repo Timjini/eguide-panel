@@ -9,10 +9,14 @@ use App\Service\OnboardingStepsService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\View\View;
+use Throwable;
 
 class OnboardingController
 {
-    public function __construct(protected OnboardingStepsService $service) {}
+    public function __construct(protected OnboardingStepsService $service)
+    {
+        $this->service = $service;
+    }
     public function index(): View
     {
         $currentStep = Auth::user()->currentOnboardingStep()->get();
@@ -35,7 +39,11 @@ class OnboardingController
 
     public function step(int $stepOrder)
     {
-        $nextStep = $this->service->nextStep($stepOrder);
+        try {
+            $nextStep = $this->service->nextStep($stepOrder);
+        } catch (Throwable $e) {
+            report($e);
+        }
 
         return view('onboarding.' . $nextStep);
     }

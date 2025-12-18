@@ -13,19 +13,22 @@ class UserObserver
      */
     public function created(User $user): void
     {
-        // intiate first onboardingstep
-        $onboarding = Onboarding::where('sort_order',  0)->first();
+        info("UserObserver: ===========================================");
+
+        $onboarding = Onboarding::OrderBy('sort_order', 'ASC')->first();
+
+        info("UserObserver: Onboarding fetched" . json_encode($onboarding));
 
         if (! $onboarding) {
             info("observer failed");
             return;
         }
 
+        info("OnboardingStep created ===================== EXIT");
         // create onboardingstep
         OnboardingStep::create([
             'user_id' => $user->id,
             'onboarding_id' => $onboarding->id,
-            'is_completed' => false
         ]);
     }
 
