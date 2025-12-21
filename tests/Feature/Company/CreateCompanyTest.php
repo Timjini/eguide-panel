@@ -10,6 +10,7 @@ it('creates a company through the bus command', function () {
     Bus::fake();
 
     CreateCompany::dispatch([
+        'id' => '0b92b6f4-bdac-4ac0-8291-991a478b812f',
         'legal_name' => 'Test Ltd',
         'contact_person' => 'John Doe',
         'primary_email' => 'hatim.jini@gmail.com',
@@ -21,11 +22,13 @@ it('creates a company through the bus command', function () {
         'country' => 'DE',
     ]);
 
+
     Bus::assertDispatched(CreateCompany::class);
 });
 
 it('persists company to database', function () {
     CreateCompany::dispatchSync([
+        'id' => '0b92b6f4-bdac-4ac0-8291-991a478b812f',
         'primary_email' => 'info@test.com',
         'legal_name' => 'Test Ltd',
         'address' => 'Main street 1',

@@ -7,6 +7,7 @@ use Livewire\Volt\Volt;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\CompanySubscriptionController;
 use App\Http\Controllers\OnboardingController;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('welcome');
@@ -55,7 +56,11 @@ Route::middleware(['auth', 'UserOnboardingSteps'])->group(function () {
 Route::prefix('companies')->group(function () {
     Route::post('/', [CompanyController::class, 'store'])->name('companies.store');
     Route::post(
-        '/subscribe/{billableId}',
+        '/subscribe/{billableId}/{planId}',
         [CompanySubscriptionController::class, 'subscribe']
     )->name('companies.subscribe');
 });
+
+
+// Route::view('/checkout/success', 'checkout.success')->name('checkout-success');
+// Route::view('/checkout/cancel', 'checkout.cancel')->name('checkout-cancel');

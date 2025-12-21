@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Event;
 use App\Events\UserRegistered;
 use App\Infrastructure\Billing\Cashier\CashierBillingService;
 use App\Infrastructure\Persistence\Eloquent\CompanyRepository;
+use App\Models\Company;
+use App\Models\Plan;
+use Laravel\Cashier\Cashier;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,5 +39,8 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(function (UserRegistered $event) {
             info('queued event here');
         });
+
+        Cashier::useSubscriptionModel(Company::class);
+        Cashier::useSubscriptionItemModel(Plan::class);
     }
 }

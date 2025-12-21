@@ -1,5 +1,5 @@
 <x-layouts.onboarding :title="__('Onboarding')">
-    <flux:main>
+    <div class="flex flex-col gap-6">
         <div class="flex flex-col gap-8">
             <h1 class="text-2xl font-semibold">
                 {{ __('Plans') }}
@@ -7,7 +7,8 @@
 
             <div class="flex flex-row flex-wrap gap-6 mt-6">
                 @foreach ($plans as $plan)
-                    <div class="flex flex-col justify-between rounded-2xl border bg-white p-6 shadow-sm">
+                    <div
+                        class="flex flex-col justify-between rounded-2xl border bg-white p-6 shadow-sm dark:bg-gray-500">
                         {{-- Header --}}
                         <div class="flex flex-col gap-2">
                             <h2 class="text-lg font-semibold">
@@ -62,7 +63,8 @@
                             </div>
                         @endif
                         {{-- Action --}}
-                        <form method="POST" action="{{ route('companies.subscribe', $company->id) }}">
+                        <form method="POST"
+                            action="{{ route('companies.subscribe', ['billableId' => $company->id, 'planId' => $plan->id]) }}">
                             @csrf
                             <input type="hidden" name="plan_code" value="{{ $plan->slug }}">
 
@@ -74,5 +76,4 @@
                 @endforeach
             </div>
         </div>
-    </flux:main>
 </x-layouts.onboarding>

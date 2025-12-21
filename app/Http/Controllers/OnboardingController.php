@@ -2,49 +2,69 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\Onboarding;
-use App\Models\OnboardingStep;
 use App\Models\Plan;
 use App\Service\OnboardingStepsService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
 use Illuminate\View\View;
-use Throwable;
 
 class OnboardingController
 {
-    public function __construct(protected OnboardingStepsService $service)
-    {
-        $this->service = $service;
-    }
+    public function __construct(
+        protected OnboardingStepsService $service
+    ) {}
+
     public function index(): View
     {
-        $currentStep = Auth::user()->currentOnboardingStep()->get();
-        info("issue with steps---->" . json_encode($currentStep));
-        if ($currentStep->isEmpty()) {
+        $currentStep = Auth::user()
+            ->currentOnboardingStep()
+            ->first();
+
+        if (! $currentStep) {
             return view('dashboard');
         }
+
+        $onboarding = Onboarding::findOrFail($currentStep->onboarding_id);
         $plans = Plan::all();
-        $onboarding = Onboarding::find($currentStep[0]['onboarding_id']);
-        return view('onboarding.' . $onboarding->slug, ['plans' => $plans, 'stepOrder' => $onboarding->sort_order]);
+
+        $companyId = Auth::user()->company_id;
+        $company = Company::find('d037e931-4f92-4e3a-9899-9239d3838e56');
+
+        return view(
+            'onboarding.' . $onboarding->slug,
+            [
+                'plans' => $plans,
+                'stepOrder' => $onboarding->sort_order,
+                'company' => $company
+            ]
+        );
     }
 
     public function show(string $onboardingId): View
     {
-        $onboarding = Onboarding::find($onboardingId);
+        $onboarding = Onboarding::findOrFail($onboardingId);
         $plans = Plan::all();
+        $companyId = Auth::user()->company_id;
+        $company = Company::find($companyId);
 
-        return view('onboarding.' . $onboarding->slug, ['plans' => $plans, 'stepOrder' => $onboarding->sort_order]);
+        return view(
+            'onboarding.' . $onboarding->slug,
+            [
+                'plans' => $plans,
+                'stepOrder' => $onboarding->sort_order,
+                'company' => $company,
+            ]
+        );
     }
 
-    public function step(int $stepOrder)
+    public function step(int $stepOrder): View
     {
-        try {
-            $nextStep = $this->service->nextStep($stepOrder);
-        } catch (Throwable $e) {
-            report($e);
-        }
+        $nextStepSlug = $this->service->nextStep(
+            Auth::user(),
+            $stepOrder
+        );
 
-        return view('onboarding.' . $nextStep);
+        return view('onboarding.' . $nextStepSlug);
     }
 }

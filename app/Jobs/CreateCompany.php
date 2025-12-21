@@ -26,7 +26,7 @@ final class CreateCompany
         ]);
 
         // generate uuid and assign it to factory
-        $companyId = new CompanyId(Str::uuid()->toString());
+        $companyId = CompanyId::generate();
         $this->data['id'] = $companyId;
 
         info('Primary email value', [

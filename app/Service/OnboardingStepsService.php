@@ -4,29 +4,24 @@ namespace App\Service;
 
 use App\Models\Onboarding;
 use App\Models\OnboardingStep;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class OnboardingStepsService
 {
-
-    public function __construct() {}
-
-    public function nextStep(int $stepOrder): string
+    public function nextStep(Authenticatable $user, int $stepOrder): string
     {
-        $onboarding = Onboarding::where('sort_order',  $stepOrder)->first();
+        $currentOnboarding = Onboarding::where('sort_order', $stepOrder)->firstOrFail();
 
-        if (! $onboarding) {
-            info("observer failed");
-            abort(403);
+        OnboardingStep::where('user_id', $user->id)
+            ->where('onboarding_id', $currentOnboarding->id)
+            ->firstOrFail();
+
+        $nextOnboarding = Onboarding::where('sort_order', $stepOrder + 1)->first();
+
+        if (! $nextOnboarding) {
+            abort(404, 'No next onboarding step.');
         }
 
-        OnboardingStep::findOrFail([
-            'user_id' => Auth::user()->id,
-            'onboarding_id' => $onboarding->id,
-        ]);
-
-        $nextStep = Onboarding::where('sort_order', $stepOrder + 1)->first();
-
-        return $nextStep->slug;
+        return $nextOnboarding->slug;
     }
 }
