@@ -17,8 +17,7 @@ class OnboardingCreateCompanyStepApprove
         $onboarding = Onboarding::where('slug',  'create-company')->first();
 
         if (! $onboarding) {
-            info("observer failed");
-            return;
+            abort(404);
         }
         info("updating onboarding step");
         // create onboardingstep

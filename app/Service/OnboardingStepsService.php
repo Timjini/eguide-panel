@@ -12,9 +12,12 @@ class OnboardingStepsService
     {
         $currentOnboarding = Onboarding::where('sort_order', $stepOrder)->firstOrFail();
 
-        OnboardingStep::where('user_id', $user->id)
+        $currentStep = OnboardingStep::where('user_id', $user->id)
             ->where('onboarding_id', $currentOnboarding->id)
             ->firstOrFail();
+
+        $currentStep->is_completed = true;
+        $currentStep->save();
 
         $nextOnboarding = Onboarding::where('sort_order', $stepOrder + 1)->first();
 
