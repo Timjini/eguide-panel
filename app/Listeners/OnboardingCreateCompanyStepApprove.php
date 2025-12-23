@@ -11,22 +11,8 @@ class OnboardingCreateCompanyStepApprove
 
     public function handle(CompanyCreated $event)
     {
-        info('Set Onboarding company_id =======', [
-            'company_id' => $event->companyId->value(),
+        info('company created event =======', [
+            'event_ingo' => $event,
         ]);
-        $onboarding = Onboarding::where('slug',  'create-company')->first();
-
-        if (! $onboarding) {
-            abort(404);
-        }
-        info("updating onboarding step");
-        // create onboardingstep
-        OnboardingStep::where([
-            'onboarding_id' => $onboarding->id,
-        ])->update(['is_completed' => true]);
-
-        OnboardingStep::create(
-            []
-        );
     }
 }

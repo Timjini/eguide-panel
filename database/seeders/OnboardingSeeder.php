@@ -14,17 +14,17 @@ class OnboardingSeeder extends Seeder
             [
                 'title' => 'Select type',
                 'slug' => 'select-type',
-                'sort_order' => 0,
+                'sort_order' => 1,
             ],
             [
                 'title' => 'create company',
                 'slug' => 'create-company',
-                'sort_order' => 1,
+                'sort_order' => 2,
             ],
             [
                 'title' => 'Choose A Plan',
                 'slug' => 'choose-plan',
-                'sort_order' => 2,
+                'sort_order' => 3,
             ],
         ];
 

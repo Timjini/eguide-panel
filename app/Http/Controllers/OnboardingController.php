@@ -28,8 +28,7 @@ class OnboardingController
         $onboarding = Onboarding::findOrFail($currentStep->onboarding_id);
         $plans = Plan::all();
 
-        $companyId = Auth::user()->company_id;
-        $company = Company::find('d037e931-4f92-4e3a-9899-9239d3838e56');
+        $company = Auth::user()->company;
 
         return view(
             'onboarding.' . $onboarding->slug,
@@ -45,8 +44,7 @@ class OnboardingController
     {
         $onboarding = Onboarding::findOrFail($onboardingId);
         $plans = Plan::all();
-        $companyId = Auth::user()->company_id;
-        $company = Company::find($companyId);
+        $company = Auth::user()->company;
 
         return view(
             'onboarding.' . $onboarding->slug,

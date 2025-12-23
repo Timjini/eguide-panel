@@ -13,7 +13,7 @@ final class CompanyFactory
     {
         $companyId = match (true) {
             $data['id'] instanceof CompanyId => $data['id'],
-            is_string($data['id'] ?? null) => new CompanyId($data['id']),
+            is_string($data['id'] ?? null) => CompanyId::fromString($data['id']),
             default => CompanyId::generate(),
         };
         return Company::create(

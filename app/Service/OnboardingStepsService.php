@@ -21,6 +21,11 @@ class OnboardingStepsService
 
         $nextOnboarding = Onboarding::where('sort_order', $stepOrder + 1)->first();
 
+        OnboardingStep::create([
+            'onboarding_id' => $nextOnboarding->id,
+            'user_id' => $user->id
+        ]);
+
         if (! $nextOnboarding) {
             abort(404, 'No next onboarding step.');
         }

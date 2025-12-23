@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable();
+            $table->uuid('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             // very bad practice coupling the subscription to Company Model
             $table->uuid('company_id')->nullable();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');

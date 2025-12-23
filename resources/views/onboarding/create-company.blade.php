@@ -1,9 +1,7 @@
 <x-layouts.onboarding :title="__('Onboarding')">
     <div class="flex flex-col gap-6">
-        <form method="POST" action="{{ route('companies.store') }}"
-            class="flex flex-col gap-8 p-6 rounded-xl">
+        <form method="POST" action="{{ route('companies.store') }}" class="flex flex-col gap-8 p-6 rounded-xl">
             @csrf
-
             {{-- Basic Information --}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <flux:input name="legal_name" :label="__('Legal Name')" type="text" required
@@ -16,8 +14,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <flux:input name="primary_email" :label="__('Primary Email')" type="email" autocomplete="email" />
 
-                <flux:input name="website" :label="__('Website')" type="url"
-                    placeholder="https://example.com" />
+                <flux:input name="website" :label="__('Website')" type="url" placeholder="https://example.com" />
 
                 <flux:input name="phone_1" :label="__('Phone')" type="tel" autocomplete="tel" />
             </div>
@@ -42,7 +39,6 @@
 
             {{-- Notes --}}
             <flux:textarea name="notes" :label="__('Notes')" rows="4" />
-
             {{-- Submit --}}
             <div class="flex justify-end">
                 <flux:button type="submit">

@@ -51,10 +51,27 @@ Route::middleware(['auth', 'UserOnboardingSteps'])->group(function () {
             [PlanController::class, 'index']
         );
     });
+
+    // Checkout routes 
+
+    Route::get('/checkout', function (Request $request) {
+        $stripePriceId = 'price_deluxe_album';
+
+        $quantity = 1;
+
+        return $request->user()->checkout([$stripePriceId => $quantity], [
+            'success_url' => route('checkout-success'),
+            'cancel_url' => route('checkout-cancel'),
+        ]);
+    })->name('checkout');
+
+    Route::view('/checkout/success', 'checkout.success')->name('checkout-success');
+    Route::view('/checkout/cancel', 'checkout.cancel')->name('checkout-cancel');
 });
 
 Route::prefix('companies')->group(function () {
-    Route::post('/', [CompanyController::class, 'store'])->name('companies.store');
+    Route::get('/create', [CompanyController::class, 'create'])->name('companies.create');
+    Route::post('/{stepOrder?}', [CompanyController::class, 'store'])->name('companies.store');
     Route::post(
         '/subscribe/{billableId}/{planId}',
         [CompanySubscriptionController::class, 'subscribe']

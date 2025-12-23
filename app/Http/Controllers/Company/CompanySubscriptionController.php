@@ -20,6 +20,8 @@ final class CompanySubscriptionController extends Controller
                 ->with('error', 'Customer created successfully.');
         }
         $company = Company::find($billableId);
+
+        // TODO: I guess this should be done differently
         $checkoutSession = $company->newSubscription('default', $plan->stripe_price_id)
             ->checkout([
                 'success_url' => route('dashboard') . '?session_id={CHECKOUT_SESSION_ID}',
