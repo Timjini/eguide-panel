@@ -14,19 +14,19 @@
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Platform')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
-                    <flux:navlist.item icon="home" :href="route('companies.index')" :current="request()->routeIs('companies.index')" wire:navigate>{{ __('Company') }}</flux:navlist.item>
+                    <flux:navlist.item icon="home" :href="route('companies.index')" :current="request()->routeIs('companies.index')" wire:navigate>{{ __('Channels') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
             
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Company')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Organization') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Billing')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Invoices') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 

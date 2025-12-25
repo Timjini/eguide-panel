@@ -4,12 +4,12 @@ namespace App\Domain\Company\ValueObjects;
 
 use Ramsey\Uuid\Uuid;
 
-final class CompanyId
+final class UserId
 {
     private function __construct(private string $value)
     {
         if (!Uuid::isValid($value)) {
-            throw new \DomainException('CompanyId invalid UUID');
+            throw new \DomainException('UserId invalid UUID');
         }
     }
 

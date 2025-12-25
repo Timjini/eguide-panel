@@ -1,11 +1,13 @@
-<?php 
+<?php
+
 use App\Domain\Company\CompanyFactory;
 use App\Domain\Company\Company;
 
-it('create a new company' , function() {
+it('create a new company', function () {
     $factory = new CompanyFactory();
 
     $company = $factory->create([
+        'id' => '0b92b6f4-bdac-4ac0-8291-991a478b812f',
         'email' => 'info@test.com',
         'legal_name' => 'Test Ltd',
         'contact_person' => 'John Doe',
@@ -19,6 +21,6 @@ it('create a new company' , function() {
     ]);
 
     expect($company)->toBeInstanceOf(Company::class)
-    ->and($company->legalName)->toBe('Test Ltd')
-    ->and($company->address->city)->toBe('Berlin');
+        ->and($company->legalName)->toBe('Test Ltd')
+        ->and($company->address->city)->toBe('Berlin');
 });

@@ -3,10 +3,15 @@
 namespace App\Providers;
 
 use App\Domain\Billing\BillingService;
+use App\Domain\Company\Repositories\CompanyRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use App\Events\UserRegistered;
 use App\Infrastructure\Billing\Cashier\CashierBillingService;
+use App\Infrastructure\Persistence\Eloquent\CompanyRepository;
+use App\Models\Company;
+use App\Models\Plan;
+use Laravel\Cashier\Cashier;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,7 +22,12 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             BillingService::class,
-            CashierBillingService::class
+            CashierBillingService::class,
+        );
+
+        $this->app->bind(
+            CompanyRepositoryInterface::class,
+            CompanyRepository::class
         );
     }
 
@@ -29,5 +39,8 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(function (UserRegistered $event) {
             info('queued event here');
         });
+
+        Cashier::useSubscriptionModel(Company::class);
+        Cashier::useSubscriptionItemModel(Plan::class);
     }
 }

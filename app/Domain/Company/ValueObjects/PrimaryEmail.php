@@ -9,7 +9,6 @@ final class PrimaryEmail
         if ($value !== null && ! filter_var($value, FILTER_VALIDATE_EMAIL)) {
             throw new \DomainException('Invalid primary email');
         }
-
     }
 
     public function value(): ?string
