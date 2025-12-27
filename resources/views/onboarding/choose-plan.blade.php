@@ -1,4 +1,4 @@
-<x-layouts.onboarding :title="__('Onboarding')">
+<x-layouts.onboarding :title="__('Choose A Plan')">
     <div class="flex flex-col gap-6">
         <div class="flex flex-col gap-8 mx-auto">
             <h1 class="text-2xl font-semibold">

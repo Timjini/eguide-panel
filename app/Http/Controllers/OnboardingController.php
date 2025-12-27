@@ -7,6 +7,7 @@ use App\Models\Onboarding;
 use App\Models\Plan;
 use App\Service\OnboardingStepsService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\View\View;
 
 class OnboardingController
@@ -40,15 +41,34 @@ class OnboardingController
         );
     }
 
-    public function show(string $onboardingId): View
+    public function show()
     {
-        $onboarding = Onboarding::findOrFail($onboardingId);
+        $user = Auth::user();
+
+        if (! $user) {
+            abort(403);
+        }
+        $currentStep = $user
+            ->currentOnboardingStep()
+            ->first();
+
+        if (! $currentStep) {
+            abort(404);
+        }
+        $onboarding = Onboarding::findOrFail($currentStep->onboarding_id);
+
+         if (! $onboarding) {
+            abort(404);
+        }
+
         $plans = Plan::all();
         $company = Auth::user()->company;
 
-        return view(
-            'onboarding.' . $onboarding->slug,
+
+        return Blade::render(
+            $onboarding->htmlContent,
             [
+                'onboarding' => $onboarding,
                 'plans' => $plans,
                 'stepOrder' => $onboarding->sort_order,
                 'company' => $company,
@@ -56,13 +76,12 @@ class OnboardingController
         );
     }
 
-    public function step(int $stepOrder): View
+    public function step()
     {
-        $nextStepSlug = $this->service->nextStep(
+        $this->service->nextStep(
             Auth::user(),
-            $stepOrder
         );
 
-        return view('onboarding.' . $nextStepSlug);
+        return redirect()->route('onboarding.show');
     }
 }

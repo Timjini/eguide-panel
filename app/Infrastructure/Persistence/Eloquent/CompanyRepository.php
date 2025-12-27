@@ -10,7 +10,7 @@ final class CompanyRepository implements RepositoriesCompanyRepositoryInterface
     public function save(Company $company): void
     {
         \App\Models\Company::create([
-            'id' => $company->id,
+            'id' => $company->id->value(),
             'legal_name' => $company->legalName,
             'contact_person' => $company->contactPerson,
             'primary_email' => $company->primaryEmail,

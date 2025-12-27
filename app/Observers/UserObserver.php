@@ -20,7 +20,7 @@ class UserObserver
             return;
         }
 
-        // create onboardingstep
+        // create onboarding step
         OnboardingStep::create([
             'user_id' => $user->id,
             'onboarding_id' => $onboarding->id,

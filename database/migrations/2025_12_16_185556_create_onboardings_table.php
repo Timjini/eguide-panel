@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('title');
             $table->string('slug')->unique();
+            $table->longText('htmlContent')->nullable();
             $table->integer('sort_order')->default(0);
             $table->timestamps();
         });

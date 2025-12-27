@@ -1,6 +1,6 @@
 <x-layouts.onboarding :title="__('Onboarding')">
     <div class="mt-8 sm:w-full sm:max-w-md ">
-        <form method="POST" action={{ route('onboarding.step', $stepOrder) }} class=" py-8 px-4 shadow sm:rounded-lg sm:px-10 bg-white dark:bg-zinc-800">
+        <form method="POST" action="{{ route('onboarding.step') }}" class=" py-8 px-4 shadow sm:rounded-lg sm:px-10 bg-white dark:bg-zinc-800">
             @csrf
             <div class="border-b border-gray-200 pb-5 mb-6">
                 <h3 class="text-lg font-medium leading-6">

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Company;
 
+use App\Events\NewCompanyCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCompanyRequest;
-use App\Jobs\CreateCompany;
 use App\Models\Company;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,10 +20,10 @@ class CompanyController extends Controller
 
     public function store(StoreCompanyRequest $request)
     {
-        CreateCompany::dispatchSync(
-            $request->validated()
-        );
+        $user = Auth::user();
+        $company = Company::create($request->validated());
 
+        event(new NewCompanyCreated($company->id, $user));
         return redirect()
             ->route('companies.index')
             ->with('success', __('Company created successfully.'));

@@ -16,7 +16,18 @@ class Subscription extends Model
 
     protected $keyType = 'string';
 
-    protected $fillable = [];
+
+    protected $fillable = [
+        'id',
+        'user_id',
+        'company_id',
+        'type',
+        'stripe_id',
+        'stripe_status',
+        'stripe_session',
+        'stripe_price',
+        'trial_ends_at',
+    ];
 
     // Automatically generate UUID
     protected static function booted()

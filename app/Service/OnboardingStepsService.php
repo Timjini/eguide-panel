@@ -4,24 +4,33 @@ namespace App\Service;
 
 use App\Models\Onboarding;
 use App\Models\OnboardingStep;
-use Illuminate\Contracts\Auth\Authenticatable;
+use App\Models\User;
 
 class OnboardingStepsService
 {
-    public function nextStep(Authenticatable $user, int $stepOrder): string
+    public function nextStep(User $user): string
     {
-        $currentOnboarding = Onboarding::where('sort_order', $stepOrder)->firstOrFail();
 
-        $currentStep = OnboardingStep::where('user_id', $user->id)
-            ->where('onboarding_id', $currentOnboarding->id)
-            ->firstOrFail();
+        // update onboarding step as completed
+        $currentOnboardingStep = $user->currentOnboardingStep()->first();
 
-        $currentStep->is_completed = true;
-        $currentStep->save();
+          if (!$currentOnboardingStep)
+        {
+            return 'All onboarding steps completed.';
+        }
+        $currentOnboardingStep->is_completed = true;
+        $currentOnboardingStep->save();
 
-        $nextOnboarding = Onboarding::where('sort_order', $stepOrder + 1)->first();
+        // find next Onboarding
+        $currentStep = Onboarding::findOrFail($currentOnboardingStep->onboarding_id);
+        $nextOnboarding = Onboarding::where('sort_order', $currentStep->sort_order + 1)->first();
 
-        OnboardingStep::create([
+        if (!$nextOnboarding)
+        {
+            return 'All onboarding steps completed.';
+        }
+        // create new OnboardingStep for user
+        $nextOnboardingStep = OnboardingStep::create([
             'onboarding_id' => $nextOnboarding->id,
             'user_id' => $user->id
         ]);
@@ -30,6 +39,6 @@ class OnboardingStepsService
             abort(404, 'No next onboarding step.');
         }
 
-        return $nextOnboarding->slug;
+        return $nextOnboardingStep;
     }
 }

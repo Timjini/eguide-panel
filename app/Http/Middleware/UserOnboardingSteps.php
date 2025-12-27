@@ -16,26 +16,19 @@ class UserOnboardingSteps
      */
     public function handle(Request $request, Closure $next): Response
     {
-
         $user = Auth::user();
 
         if (!$user) {
             return redirect()->route('login');
         }
 
-        $stillOnboarding = $user->currentOnboardingStep()->get();
-        info("calles to onboard" . json_encode($stillOnboarding));
+        $stillOnboarding = $user->currentOnboardingStep()->first();
+        info('calls to onboard ' . json_encode($stillOnboarding));
 
-        $isOnboardingRoute = $request->routeIs('onboarding.*');
-
-        if (!$stillOnboarding->isEmpty() && ! $isOnboardingRoute) {
-            return redirect()->route('onboarding.index');
+        if ($stillOnboarding !== null && !$request->routeIs('onboarding.*')) {
+            return redirect()->route('onboarding.show');
         }
 
-        // User finished → block onboarding pages
-        if (($stillOnboarding->isEmpty() || !$stillOnboarding) && $isOnboardingRoute) {
-            return redirect()->route('dashboard');
-        }
         return $next($request);
     }
 }

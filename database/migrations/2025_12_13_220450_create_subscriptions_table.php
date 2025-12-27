@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('subscriptions', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->uuid('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             // very bad practice coupling the subscription to Company Model
@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('stripe_status');
             $table->string('stripe_price')->nullable();
             $table->integer('quantity')->nullable();
+            $table->longText('stripe_session')->nullable();
             $table->timestamp('trial_ends_at')->nullable();
             $table->timestamp('ends_at')->nullable();
             $table->timestamps();
