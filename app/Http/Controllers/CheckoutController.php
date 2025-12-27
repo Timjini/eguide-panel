@@ -46,7 +46,7 @@ final class CheckoutController extends Controller
             'type' => 'standard',
             'stripe_id' => $session->subscription,
             'stripe_status' => 'active',
-            'stripe_price' => $session->amount_total[0],
+            'stripe_price' => $session->amount_total,
             'stripe_session' => json_encode($session->toArray()),
             // 'trial_ends_at' => date('Y-m-d H:i:s', $session->subscription->current_period_end),
         ]);

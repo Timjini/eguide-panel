@@ -18,7 +18,7 @@ return new class extends Migration
             // very bad practice coupling the subscription to Company Model
             $table->uuid('company_id')->nullable();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-            $table->string('type');
+            $table->string('type')->nullable();
             $table->string('stripe_id')->unique();
             $table->string('stripe_status');
             $table->string('stripe_price')->nullable();

@@ -1,5 +1,8 @@
-<x-layouts.onboarding :title="__('Onboarding')">
+<x-layouts.onboarding :title="__('Create Organization')">
     <div class="flex flex-col gap-6">
+         <h1 class="text-2xl font-semibold">
+                {{ __('Create Organization') }}
+            </h1>
         <form method="POST" action="{{ route('companies.store') }}" class="flex flex-col gap-8 p-6 rounded-xl">
             @csrf
             {{-- Basic Information --}}
