@@ -1,12 +1,15 @@
 <?php
 
+use App\Http\Controllers\Billing\BillingController;
 use App\Http\Controllers\Billing\PlanController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\Company\ChannelController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\CompanySubscriptionController;
+use App\Http\Controllers\Company\MembersController;
 use App\Http\Controllers\OnboardingController;
 use Illuminate\Http\Request;
 
@@ -51,6 +54,24 @@ Route::middleware(['auth', 'UserOnboardingSteps'])->group(function () {
             '/{company}/plans',
             [PlanController::class, 'index']
         );
+
+        //channels routes
+        Route::get(
+            '/{company}/channels',
+            [ChannelController::class, 'index']
+        )->name('companies.channels.index');
+
+        //billing routes
+        Route::get(
+            '/{company}/billing',
+            [BillingController::class, 'index']
+        )->name('companies.billing.index');
+        
+        // members routes
+        Route::get(
+            '/{company}/members',
+            [MembersController::class, 'index']
+        )->name('companies.members.index');
     });
 });
 

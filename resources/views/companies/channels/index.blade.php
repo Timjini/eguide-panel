@@ -1,10 +1,9 @@
-<x-layouts.app.sidebar :title="__('Organization')">
+<x-layouts.app.sidebar :title="__('Channels')">
     <flux:main>
         <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">
-            Billing & Invoices
+            Channels
         </h1>
-
-         <div class="mt-6 bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg mb-4">
+        <div class="mt-6 bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg mb-4">
             <div class="flex">
                 <div class="flex-shrink-0">
                     <!-- Info Icon -->
@@ -15,7 +14,7 @@
                 <div class="ml-3">
                     <h3 class="text-sm font-semibold text-blue-800">Section Coming soon!</h3>
                     <div class="mt-1 text-sm text-blue-700">
-                        Manage your billing and invoices here. This section will allow you to view your billing history, download invoices, and update your payment methods.
+                        Manage your channels here. This section will allow you to add, remove, and configure your communication channels.
                     </div>
                 </div>
             </div>

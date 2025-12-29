@@ -8,12 +8,11 @@
             <div class="flex justify-center min-h-[60vh]">
                 <div
                     class="max-w-md text-center rounded-xl p-8 shadow-sm
-                           bg-white border border-gray-200
-                           dark:bg-gray-600 dark:border-gray-800 dark:shadow-none">
+                           border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:shadow-none">
 
                     <div
                         class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full
-                               bg-indigo-100 dark:bg-indigo-900/40">
+                               bg-indigo-100 dark:bg-gray-900/40">
                         <svg class="h-7 w-7 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor"
                             stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M9 21V10m6 11V10M5 21h14" />

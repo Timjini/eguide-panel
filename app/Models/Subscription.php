@@ -10,7 +10,7 @@ use Laravel\Cashier\Billable;
 
 class Subscription extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     public $incrementing = false;
 
@@ -27,6 +27,7 @@ class Subscription extends Model
         'stripe_session',
         'stripe_price',
         'trial_ends_at',
+        'deleted_at',
     ];
 
     // Automatically generate UUID
@@ -37,5 +38,10 @@ class Subscription extends Model
                 $subscription->id = (string) Str::uuid();
             }
         });
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
     }
 }
