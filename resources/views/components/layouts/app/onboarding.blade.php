@@ -28,7 +28,6 @@
 
         <flux:navlist variant="outline">
             <flux:navlist.group :heading="__('Onboarding')" class="grid">
-                <flux:navlist.item>Items 1</flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>
 

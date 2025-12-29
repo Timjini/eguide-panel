@@ -14,27 +14,23 @@
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Platform')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
-                    <flux:navlist.item icon="home" :href="route('companies.index')" :current="request()->routeIs('companies.index')" wire:navigate>{{ __('Channels') }}</flux:navlist.item>
+                    <flux:navlist.item icon="calendar-date-range" :href="route('companies.index')" :current="request()->routeIs('companies.index')" wire:navigate>{{ __('Channels') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
             
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Company')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Organization') }}</flux:navlist.item>
-                </flux:navlist.group>
-            </flux:navlist>
-
-            <flux:navlist variant="outline">
-                <flux:navlist.group :heading="__('Billing')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Invoices') }}</flux:navlist.item>
+                    <flux:navlist.item icon="briefcase" :href="route('companies.index')" :current="request()->routeIs('companies.index')" wire:navigate>{{ __('Organization') }}</flux:navlist.item>
+                    <flux:navlist.item icon="users" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Members') }}</flux:navlist.item>
+                    <flux:navlist.item icon="credit-card" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Invoices') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 
             <flux:spacer />
 
             <flux:navlist variant="outline">
-                <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                {{ __('Repository') }}
+                <flux:navlist.item icon="code-bracket-square" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
+                {{ __('Integration') }}
                 </flux:navlist.item>
 
                 <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
