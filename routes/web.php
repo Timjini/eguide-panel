@@ -22,7 +22,7 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::middleware(['auth', 'UserOnboardingSteps'])->group(function () {
+Route::middleware(['auth', 'UserOnboardingSteps' ,'CompanyContext'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
     Volt::route('settings/profile', 'settings.profile')->name('profile.edit');

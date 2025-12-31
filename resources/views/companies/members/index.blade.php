@@ -4,6 +4,6 @@
             Organization Members
         </h1>
 
-            <livewire:member-table/>
+        <livewire:member-table />
     </flux:main>
 </x-layouts.app.sidebar>
