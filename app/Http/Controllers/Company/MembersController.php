@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company;
 use App\Http\Controllers\Controller;
 use App\Service\InviteMemberService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class MembersController extends Controller
@@ -16,8 +17,13 @@ class MembersController extends Controller
         $this->inviteMemberService = $inviteMemberService;
     }
     public function index(): View
-    {
-        return view('companies.members.index');
+    {  
+        $company = Auth::user()->company()->get()->first();
+
+        $members = $company->users()->get();
+
+        info('Company Members accessed for company: ' . $members);
+        return view('companies.members.index', compact('members'));
     }
 
     public function create(): View
