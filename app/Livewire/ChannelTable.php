@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Channel;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
@@ -15,6 +16,11 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 final class ChannelTable extends PowerGridComponent
 {
     public string $tableName = 'channelTable';
+
+    public function boot(): void
+    {
+        config(['livewire-powergrid.filter' => 'outside']);
+    }
 
     public function setUp(): array
     {
@@ -31,7 +37,20 @@ final class ChannelTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Channel::query();
+        return Channel::query()->join('companies', function ($companies) {
+            $companies->on('channels.company_id', '=', 'companies.id');
+        })
+        ->select([
+            'channels.id',
+            'channels.name',
+            'channels.description',
+            'channels.code',
+            'channels.started_at',
+            'channels.ended_at',
+            'channels.status',
+            'channels.created_at',
+        ])->where('companies.id', Auth::user()->company_id)
+        ;
     }
 
     public function relationSearch(): array
@@ -41,12 +60,36 @@ final class ChannelTable extends PowerGridComponent
 
     public function fields(): PowerGridFields
     {
-        return PowerGrid::fields();
+         return PowerGrid::fields()
+            ->add('name')
+            ->add('description')
+            ->add('code')
+            ->add('started_at')
+            ->add('ended_at')
+            ->add('status');
     }
 
     public function columns(): array
     {
         return [
+            Column::make('Name', 'name')
+                ->searchable()
+                ->sortable(),
+            Column::make('Description', 'description')
+                ->searchable()
+                ->sortable(),
+            Column::make('Code', 'code')
+                ->searchable()
+                ->sortable(),
+            Column::make('Start Date', 'started_at')
+                ->searchable()
+                ->sortable(),
+            Column::make('End Date', 'ended_at')
+                ->searchable()
+                ->sortable(),
+            Column::make('Status', 'status')
+                ->searchable()
+                ->sortable(),
             Column::action('Action')
         ];
     }
@@ -54,23 +97,26 @@ final class ChannelTable extends PowerGridComponent
     public function filters(): array
     {
         return [
+            Filter::datetimepicker('started_at'),
+
+            Filter::datetimepicker('ended_at')
         ];
     }
 
-    #[\Livewire\Attributes\On('edit')]
-    public function edit($rowId): void
+    #[\Livewire\Attributes\On('delete')]
+    public function delete($channelId): void
     {
-        $this->js('alert('.$rowId.')');
+        $this->js('alert('.$channelId.')');
     }
 
     public function actions(Channel $row): array
     {
         return [
-            Button::add('edit')
-                ->slot('Edit: '.$row->id)
+             Button::add('delete')
                 ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+                ->icon('default-trash')
+                ->class('cursor-pointer text-red-600 hover:text-red-900')
+                ->dispatch('delete', ['channelId' => $row->id]),
         ];
     }
 

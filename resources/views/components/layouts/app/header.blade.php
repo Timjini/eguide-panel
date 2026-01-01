@@ -4,6 +4,22 @@
         @include('partials.head')
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-800">
+
+        @if (session('success'))
+            <x-flash type="success" :title="session('success-title', 'Success')" :message="session('success')" />
+        @endif
+
+        @if (session('error'))
+            <x-flash type="error" :title="session('error-title', 'Error')" :message="session('error')" />
+        @endif
+
+        @if(session('status'))
+            <x-flash type="info" :title="session('status-title', 'Info')" :message="session('status')" />
+        @endif
+
+        @if ($errors->any())
+            <x-flash type="error" title="Validation Error" :message="$errors->all()" />
+        @endif
         <flux:header container class="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 

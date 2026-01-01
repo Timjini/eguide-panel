@@ -22,10 +22,10 @@ final class MemberTable extends PowerGridComponent
     public function header(): array
     {
         return [
-            Button::add('create-member')
-                ->slot('Create Member')
-                ->class('bg-green-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-                ->dispatch('createMember', []),
+            // Button::add('create-member')
+            //     ->slot('Create Member')
+            //     ->class('bg-green-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
+            //     ->dispatch('createMember', []),
         ];
     }
 
