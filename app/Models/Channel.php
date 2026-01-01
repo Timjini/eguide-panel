@@ -23,6 +23,8 @@ class Channel extends Model
         'started_at',
         'ended_at',
         'status',
+        'deleted_at',
+        'is_completed',
     ];
 
     protected static function booted()

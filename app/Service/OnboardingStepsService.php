@@ -41,4 +41,20 @@ class OnboardingStepsService
 
         return $nextOnboardingStep;
     }
+
+    // temp fix exit onboarding 
+    public function exitOnboarding(User $user, $companyId = null): void
+    {
+        // add user to company
+        $user->company_id = $companyId;
+        $user->save();
+
+        // mark current onboarding step as completed
+        $currentOnboardingStep = $user->currentOnboardingStep()->first();
+
+        if ($currentOnboardingStep) {
+            $currentOnboardingStep->is_completed = true;
+            $currentOnboardingStep->save();
+        }
+    }
 }

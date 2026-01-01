@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'UserOnboardingSteps' => \App\Http\Middleware\UserOnboardingSteps::class,
+            'CompanyContext' => \App\Http\Middleware\CompanyContext::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

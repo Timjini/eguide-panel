@@ -24,6 +24,7 @@
                 <flux:navlist.group :heading="__('Company')" class="grid">
                     <flux:navlist.item icon="briefcase" :href="route('companies.index', $company)" :current="request()->routeIs('companies.index')" wire:navigate>{{ __('Organization') }}</flux:navlist.item>
                     <flux:navlist.item icon="users" :href="route('companies.members.index', $company)" :current="request()->routeIs('companies.members.index')" wire:navigate>{{ __('Members') }}</flux:navlist.item>
+                    <flux:navlist.item icon="envelope" :href="route('companies.invitations.index', $company)" :current="request()->routeIs('companies.invitations.index')" wire:navigate>{{ __('Invitations') }}</flux:navlist.item>
                     <flux:navlist.item icon="credit-card" :href="route('companies.billing.index', $company)" :current="request()->routeIs('companies.billing.index')" wire:navigate>{{ __('Billing') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>

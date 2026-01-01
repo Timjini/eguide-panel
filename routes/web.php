@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\Company\CompanyController;
+use App\Http\Controllers\Company\CompanyInvitationController;
 use App\Http\Controllers\Company\CompanySubscriptionController;
 use App\Http\Controllers\Company\MembersController;
 use App\Http\Controllers\OnboardingController;
@@ -21,7 +22,7 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::middleware(['auth', 'UserOnboardingSteps'])->group(function () {
+Route::middleware(['auth', 'UserOnboardingSteps' ,'CompanyContext'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
     Volt::route('settings/profile', 'settings.profile')->name('profile.edit');
@@ -46,6 +47,7 @@ Route::middleware(['auth', 'UserOnboardingSteps'])->group(function () {
         Route::get('/', [OnboardingController::class, 'index'])->name('onboarding.index');
         Route::post('/', [OnboardingController::class, 'step'])->name('onboarding.step');
         Route::get('/', [OnboardingController::class, 'show'])->name('onboarding.show');
+        Route::get('/join-company', [OnboardingController::class, 'joinCompany'])->name('onboarding.join-company');
     });
 
     Route::prefix('companies')->group(function () {
@@ -54,6 +56,16 @@ Route::middleware(['auth', 'UserOnboardingSteps'])->group(function () {
             '/{company}/plans',
             [PlanController::class, 'index']
         );
+
+        //invitations
+        Route::get(
+            '/invitations',
+            [CompanyInvitationController::class, 'index']
+        )->name('companies.invitations.index');
+        Route::post(
+            '/invitations',
+            [CompanyInvitationController::class, 'store']
+        )->name('companies.invitations.store');
 
         //channels routes
         Route::get(
@@ -72,6 +84,10 @@ Route::middleware(['auth', 'UserOnboardingSteps'])->group(function () {
             '/{company}/members',
             [MembersController::class, 'index']
         )->name('companies.members.index');
+        Route::get(
+            '/{company}/members/invite',
+            [MembersController::class, 'create']
+        )->name('companies.members.create');
     });
 });
 
@@ -82,6 +98,11 @@ Route::prefix('companies')->group(function () {
         '/subscribe/{billableId}/{planId}',
         [CompanySubscriptionController::class, 'subscribe']
     )->name('companies.subscribe');
+
+    Route::post(
+            '/invitations/validate',
+            [CompanyInvitationController::class, 'validateInvitationCode']
+        )->name('companies.invitations.validate');
 });
 
 

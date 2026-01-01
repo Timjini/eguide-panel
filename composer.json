@@ -16,9 +16,11 @@
         "laravel/telescope": "^5.16",
         "laravel/tinker": "^2.10.1",
         "livewire/flux": "^2.9.0",
-        "livewire/volt": "^1.7.0"
+        "livewire/volt": "^1.7.0",
+        "power-components/livewire-powergrid": "^6.7"
     },
     "require-dev": {
+        "composer/composer": "^2.9",
         "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.24",

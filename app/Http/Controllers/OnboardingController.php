@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\Onboarding;
 use App\Models\Plan;
 use App\Service\OnboardingStepsService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\View;
@@ -76,12 +77,34 @@ class OnboardingController
         );
     }
 
-    public function step()
+    public function step(Request $request)
     {
+        if($this->checkIfInvited($request))
+        {
+            info("it runs inside checkIfInvited");
+            return redirect()->route('onboarding.join-company');
+        }
+        info("it runs after checkIfInvited");
         $this->service->nextStep(
             Auth::user(),
         );
 
         return redirect()->route('onboarding.show');
+    }
+
+    public function checkIfInvited(Request $request)
+    {
+        if($request->onboarding_type === 'invited') {
+            info("invited");
+            return true;
+        } else {
+            info("not invited");
+            return false;
+        }
+    }
+
+    public function joinCompany(): View
+    {
+        return view('onboarding.join-company');
     }
 }

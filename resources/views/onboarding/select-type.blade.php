@@ -1,6 +1,6 @@
 <x-layouts.onboarding :title="__('Onboarding')">
     <div class="mt-8 sm:w-full sm:max-w-md ">
-        <form method="POST" action="{{ route('onboarding.step') }}" class=" py-8 px-4 shadow sm:rounded-lg sm:px-10 bg-white dark:bg-zinc-800">
+        <form method="POST" action="{{ route('onboarding.step') }}" class=" py-8 px-4 shadow sm:rounded-lg sm:px-10 bg-white dark:bg-zinc-800" x-data="{ loading: false }" @submit="loading = true">
             @csrf
             <div class="border-b border-gray-200 pb-5 mb-6">
                 <h3 class="text-lg font-medium leading-6">
@@ -54,14 +54,11 @@
 
             <!-- Action Buttons -->
             <div class="mt-8 flex flex-col sm:flex-row gap-3">
-                <button type="submit"
-                        class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md  bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                    Continue
-                </button>
                 <button type="button"
                         class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md  hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
                     Back
                 </button>
+                <x-loading-button label=" {{ __('Continue') }}" />
             </div>
         </form>
     </div>
