@@ -10,7 +10,7 @@
 'requiredIndicator' => false,
 ])
 <flux:field>
-    <flux:label>{{ $label }}</flux:label>
+    <flux:label class="mt-2">{{ $label }}</flux:label>
     <flux:input
         :name="$name"
         :value="old($name)"

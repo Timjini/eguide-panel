@@ -31,8 +31,11 @@ class CompanyInvitationController extends Controller
         // company id policy to make sure user can only invite to their own company
         // later policy to check if user has permission to invite
 
-
-        // move this to service later
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+        try{
+                    // move this to service later
         $invitation = CompanyInvitation::create([
             'company_id' => Auth::user()->company_id,
             'email' => $request->email,
@@ -46,6 +49,11 @@ class CompanyInvitationController extends Controller
 
          return redirect()->route('companies.invitations.index')
             ->with('success', 'Customer created successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('companies.invitations.index')
+                ->with('error', 'An error occurred while sending the invitation.');
+        }   
+
     }
 
     public function bulkSoftDelete(Request $request) 
