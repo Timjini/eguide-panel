@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Events\ChannelCreated;
 use App\Livewire\Forms\ChannelForm;
 use App\Models\Channel;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,7 @@ class CreateChannel extends Component
         $this->validate();
         $companyId = Auth::user()->company_id;
         try {
-            Channel::create([
+            $channel = Channel::create([
                 'company_id' => Auth::user()->company_id,
                 'name' => $this->form->name,
                 'description' => $this->form->description,
@@ -25,6 +26,8 @@ class CreateChannel extends Component
                 'status' => $this->form->is_active ? 'active' : 'inactive',
                 'code' => strtoupper(uniqid('CHN')),
             ]);
+
+            event(new ChannelCreated($channel->code));
            $this->redirectRoute('companies.channels.index', ['company' => $companyId]);
         } catch (\Exception $e) {
             info('An error occurred while creating the channel: ' . $e->getMessage());
