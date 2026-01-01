@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\CompanyInvitation;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
@@ -31,7 +32,21 @@ final class CompanyInvitationTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return CompanyInvitation::query();
+        return CompanyInvitation::query()
+              ->join('users', function ($users) {
+                  $users->on('company_invitations.invited_by', '=', 'users.id');
+              })->join('companies', function ($companies) {
+                  $companies->on('company_invitations.company_id', '=', 'companies.id');
+              })
+              ->select([
+                  'company_invitations.id',
+                  'company_invitations.email',
+                  'company_invitations.invitation_code',
+                  'company_invitations.expires_at',
+                  'users.name as invited_by',
+                  'company_invitations.created_at',
+              ])->where('companies.id', Auth::user()->company()->get()->first()->id);
+        ;
     }
 
     public function relationSearch(): array
@@ -42,8 +57,6 @@ final class CompanyInvitationTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('id')
-            ->add('company_id')
             ->add('email')
             ->add('invitation_code')
             ->add('expires_at')
@@ -54,14 +67,6 @@ final class CompanyInvitationTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Id', 'id')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Company id', 'company_id')
-                ->sortable()
-                ->searchable(),
-
             Column::make('Email', 'email')
                 ->sortable()
                 ->searchable(),
@@ -70,21 +75,11 @@ final class CompanyInvitationTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Expires at', 'expires_at_formatted', 'expires_at')
-                ->sortable(),
-
             Column::make('Expires at', 'expires_at')
                 ->sortable()
                 ->searchable(),
 
             Column::make('Invited by', 'invited_by')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Created at', 'created_at_formatted', 'created_at')
-                ->sortable(),
-
-            Column::make('Created at', 'created_at')
                 ->sortable()
                 ->searchable(),
 
@@ -98,20 +93,20 @@ final class CompanyInvitationTable extends PowerGridComponent
         ];
     }
 
-    #[\Livewire\Attributes\On('edit')]
-    public function edit($rowId): void
+    #[\Livewire\Attributes\On('delete')]
+    public function delete($invitationId): void
     {
-        $this->js('alert('.$rowId.')');
+        $this->js('alert('.$invitationId.')');
     }
 
     public function actions(CompanyInvitation $row): array
     {
         return [
-            Button::add('edit')
-                ->slot('Edit: '.$row->id)
+            Button::add('delete')
                 ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+                ->icon('default-trash')
+                ->class('cursor-pointer text-red-600 hover:text-red-900')
+                ->dispatch('delete', ['invitationId' => $row->id]),
         ];
     }
 

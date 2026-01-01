@@ -62,6 +62,10 @@ Route::middleware(['auth', 'UserOnboardingSteps' ,'CompanyContext'])->group(func
             '/invitations',
             [CompanyInvitationController::class, 'index']
         )->name('companies.invitations.index');
+        Route::post(
+            '/invitations',
+            [CompanyInvitationController::class, 'store']
+        )->name('companies.invitations.store');
 
         //channels routes
         Route::get(

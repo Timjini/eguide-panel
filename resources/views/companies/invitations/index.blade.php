@@ -3,7 +3,7 @@
         <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">
             Company invitations
         </h1>
-        <button command="show-modal" commandfor="drawer" class="rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white inset-ring inset-ring-white/5 hover:bg-white/20">Create invitation</button>
+        <button command="show-modal" commandfor="drawer" class="rounded-md bg-gray-800 px-2.5 py-1.5 text-sm font-semibold text-white inset-ring inset-ring-white/5 hover:bg-gray-700 dark:bg-accent-foreground ">Create invitation</button>
         <el-dialog>
         <dialog id="drawer" aria-labelledby="drawer-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-hidden bg-transparent not-open:hidden backdrop:bg-transparent">
             <el-dialog-backdrop class="absolute inset-0 bg-gray-900/50 transition-opacity duration-500 ease-in-out data-closed:opacity-0"></el-dialog-backdrop>
@@ -21,12 +21,23 @@
                 </button>
                 </div>
 
-                <div class="relative flex h-full flex-col overflow-y-auto bg-gray-800 py-6 shadow-xl after:absolute after:inset-y-0 after:left-0 after:w-px after:bg-white/10">
+                <div class="relative flex h-full flex-col overflow-y-auto bg-white dark:bg-zinc-800 py-6 shadow-xl after:absolute after:inset-y-0 after:left-0 after:w-px after:bg-white/10">
                 <div class="px-4 sm:px-6">
-                    <h2 id="drawer-title" class="text-base font-semibold text-white">Panel title</h2>
+                    <h2 id="drawer-title" class="text-base font-semibold text-gray-900 dark:text-gray-100">Send an invitation</h2>
                 </div>
                 <div class="relative mt-6 flex-1 px-4 sm:px-6">
-                    <!-- Your content -->
+                    <x-info-box icon="newspaper" title="Invite a member" message="Send an invitation to a member of your company." />
+                    <form method="POST" action="{{ route('companies.invitations.store') }}" class=" py-8 sm:px-4 bg-white dark:bg-zinc-800" x-data="{ loading: false }" @submit="loading = true">
+                        @csrf
+
+                        <x-input label="Recipient email" name="email" type="email" placeholder="email@example.com" requiredIndicator=true />
+                         <div class="absolute inset-x-0 bottom-0 h-16">
+                        <div class="flex h-full items-center justify-end gap-4 bg-white dark:bg-zinc-800 px-4 sm:px-6">
+                        <x-primary-btn label="{{ __('Send') }}" type="submit" class="" variant="primary" data-test="send-invitation-button" />
+                        </div>
+                    </div>
+
+                    </form>
                 </div>
                 </div>
             </el-dialog-panel>
