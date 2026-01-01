@@ -4,7 +4,7 @@
         @error('form.name') <span class="error">{{ $message }}</span> @enderror
     </div>
 
-     <x-text-area label="Description" rows="2"  name="description" type="text" placeholder="Grand Tour" wire:model="form.description" requiredIndicator=true />
+     <x-text-area label="Description" rows="2"  name="description" type="text" placeholder="Grand Tour" wire:model="form.description" requiredIndicator=false />
     <div>
         @error('form.description') <span class="error">{{ $message }}</span> @enderror
     </div>

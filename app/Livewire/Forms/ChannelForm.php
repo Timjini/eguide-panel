@@ -10,7 +10,7 @@ class ChannelForm extends Form
     #[Validate('required|min:5')]
     public $name = '';
 
-    #[Validate('required|min:5')]
+    #[Validate('nullable|min:5')]
     public $description = '';
 
     #[Validate('required|date')]
