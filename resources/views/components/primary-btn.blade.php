@@ -5,6 +5,6 @@
      'data-test' => '',
      'label' => __('Create account')
  ])
- <flux:button type="{{ $type }}" variant="{{ $variant }}" class="w-full" data-test="{{ $dataTest }}">
+ <flux:button  wire:click="save" type="{{ $type }}" variant="{{ $variant }}" class="w-full" data-test="{{ $dataTest }}">
      {{ $label }}
  </flux:button>
