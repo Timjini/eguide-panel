@@ -47,21 +47,19 @@ class AuthController extends BaseController
         ]);
 
         try {
-                    $user = User::where('email', $request->email)->first();
+            $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
-        }
-        
-        $success['authToken'] =  $user->createToken($request->device_name)->plainTextToken;
-        $success['name'] =  $user->name;
-        return $this->sendResponse($success, 'User login successfully.');
-        } catch(\Exception $e)
-        {
-            return $this->sendError('Unauthorised.', ['error'=> $e->getMessage()]);
-        }
+            if (!$user || !Hash::check($request->password, $user->password)) {
+                throw ValidationException::withMessages([
+                    'email' => ['The provided credentials are incorrect.'],
+                ]);
+            }
 
+            $success['authToken'] =  $user->createToken($request->device_name)->plainTextToken;
+            $success['name'] =  $user->name;
+            return $this->sendResponse($success, 'User login successfully.');
+        } catch (\Exception $e) {
+            return $this->sendError('Unauthorised.', ['error' => $e->getMessage()]);
+        }
     }
 }

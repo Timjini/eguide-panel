@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\Auth\AuthController;
+use App\Http\Controllers\API\Channel\ChannelController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,6 +12,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function(Request $request){
         return $request->user();
     });
+
+    Route::post('/get-channel', [ChannelController::class , 'getChannelByCode'])
+    ->name('channel.by-code');
 });
 
 Route::get('/status', function(){
