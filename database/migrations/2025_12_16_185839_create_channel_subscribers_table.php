@@ -15,6 +15,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('channel_id')->nullable();
             $table->foreign('channel_id')->references('id')->on('channels')->onDelete('cascade');
+            $table->uuid('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('name');
             $table->timestamp('joined_at')->nullable();
             $table->string('status')->default('inactive');

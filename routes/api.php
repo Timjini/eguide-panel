@@ -9,15 +9,19 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/user', function(Request $request){
+    Route::get('/user', function (Request $request) {
         return $request->user();
     });
 
-    Route::post('/get-channel', [ChannelController::class , 'getChannelByCode'])
-    ->name('channel.by-code');
+    Route::prefix('channels')->group(function () {
+        Route::post('/get', [ChannelController::class, 'getChannelByCode'])
+            ->name('channel.by-code');
+        Route::post('/join', [ChannelController::class, 'joinChannel'])
+            ->name('channel.joinChannel');
+    });
 });
 
-Route::get('/status', function(){
+Route::get('/status', function () {
     return response()->json('Hello');
 });
 

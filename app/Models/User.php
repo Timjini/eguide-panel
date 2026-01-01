@@ -111,4 +111,9 @@ class User extends Authenticatable
     {
         return $this->onboardingSteps()->where('is_completed', false)->latest();
     }
+
+    public function channelSubscribers()
+    {
+        return $this->hasMany(ChannelSubscriber::class);
+    }
 }
