@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class Channel extends Model
+class ChannelSubscriber extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -17,27 +17,28 @@ class Channel extends Model
 
     protected $fillable = [
         'name',
-        'description',
-        'company_id',
-        'code',
-        'started_at',
-        'ended_at',
+        'channel_id',
+        'joined_at',
         'status',
         'deleted_at',
-        'is_completed',
     ];
 
     protected static function booted()
     {
-        static::creating(function ($channel) {
-            if (! $channel->id) {
-                $channel->id = (string) Str::uuid();
+        static::creating(function ($channelSubscriber) {
+            if (! $channelSubscriber->id) {
+                $channelSubscriber->id = (string) Str::uuid();
             }
         });
     }
 
-    public function channelSubscribers()
+    public function channel()
     {
-        $this->hasMany(ChannelSubscriber::class);
+        return $this->belongsTo(Channel::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class);
     }
 }

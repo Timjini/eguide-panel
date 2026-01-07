@@ -13,12 +13,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 use App\Observers\UserObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Laravel\Sanctum\HasApiTokens;
 
 #[ObservedBy([UserObserver::class])]
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable;
+    use HasFactory, Notifiable, TwoFactorAuthenticatable, HasApiTokens;
 
     protected $dispatchesEvents = [
         'created' => UserRegistered::class
@@ -109,5 +110,10 @@ class User extends Authenticatable
     public function currentOnboardingStep()
     {
         return $this->onboardingSteps()->where('is_completed', false)->latest();
+    }
+
+    public function channelSubscribers()
+    {
+        return $this->hasMany(ChannelSubscriber::class);
     }
 }
