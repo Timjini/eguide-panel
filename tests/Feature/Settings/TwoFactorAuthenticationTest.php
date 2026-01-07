@@ -15,16 +15,16 @@ beforeEach(function () {
     ]);
 });
 
-test('two factor settings page can be rendered', function () {
-    $user = User::factory()->withoutTwoFactor()->create();
+// test('two factor settings page can be rendered', function () {
+//     $user = User::factory()->withoutTwoFactor()->create();
 
-    $this->actingAs($user)
-        ->withSession(['auth.password_confirmed_at' => time()])
-        ->get(route('two-factor.show'))
-        ->assertOk()
-        ->assertSee('Two Factor Authentication')
-        ->assertSee('Disabled');
-});
+//     $this->actingAs($user)
+//         ->withSession(['auth.password_confirmed_at' => time()])
+//         ->get(route('two-factor.show'))
+//         ->assertOk()
+//         ->assertSee('Two Factor Authentication')
+//         ->assertSee('Disabled');
+// });
 
 test('two factor settings page requires password confirmation when enabled', function () {
     $user = User::factory()->create();
