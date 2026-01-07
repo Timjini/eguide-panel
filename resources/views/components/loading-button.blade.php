@@ -6,7 +6,11 @@
 <button 
     type="{{ $attributes->get('type', 'submit') }}" 
     :disabled="loading" 
-    class="{{$customClass}} flex justify-center w-full items-center  border border-transparent  text-sm  shadow-sm  focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-200 bg-[#e7ebee] hover:bg-[#3a8cc4] text-white font-medium py-2 px-4 rounded-xl transition"
+    class="{{$customClass}} flex justify-center w-full items-center  
+    border border-transparent  text-sm  shadow-sm  focus:outline-none 
+    focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors 
+    duration-200 bg-[#e7ebee] hover:bg-[#dbdbdb] text-gray-200 dark:text-gray-900  font-medium 
+    py-2 px-4 rounded-lg transition"
     {{ $attributes->except('type') }}
 >
     <template x-if="!loading">
