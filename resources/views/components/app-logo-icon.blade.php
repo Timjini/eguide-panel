@@ -1,2 +1,2 @@
-<img class="h-auto w-full" src="/images/eguide-logo.png"/>
+<img class="h-auto w-full"  src="/public/images/eguide-logo.png"/>
 
