@@ -57,6 +57,8 @@ class AuthController extends BaseController
 
             $success['authToken'] =  $user->createToken($request->device_name)->plainTextToken;
             $success['name'] =  $user->name;
+            $success['email'] = $user->email;
+            $success['id'] = $user->id;
             return $this->sendResponse($success, 'User login successfully.');
         } catch (\Exception $e) {
             return $this->sendError('Unauthorised.', ['error' => $e->getMessage()]);
